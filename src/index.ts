@@ -28,7 +28,7 @@ const server = new Server(
     instructions: [
       "This server requires a DRITAN_API_KEY environment variable to use market data and swap tools.",
       "Get your API key at https://dritan.dev and configure it:",
-      "  claude mcp add dritan-mcp -e DRITAN_API_KEY=<your-key> -- npx dritan-mcp",
+      "  claude mcp add dritan-mcp -e DRITAN_API_KEY=<your-key> -- npx @dritan/mcp@latest",
       "Without the key, only system_check_prereqs and wallet tools (create_local, get_address, get_balance) will work.",
     ].join("\n"),
   },

@@ -1,5 +1,5 @@
 {
-  "name": "dritan-mcp",
+  "name": "@dritan/mcp",
   "version": "0.1.2",
   "license": "MIT",
   "type": "module",
