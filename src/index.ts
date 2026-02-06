@@ -19,12 +19,18 @@ const DEFAULT_WALLET_DIR = join(homedir(), ".config", "dritan-mcp", "wallets");
 const server = new Server(
   {
     name: "dritan-mcp",
-    version: "0.1.0",
+    version: "0.1.2",
   },
   {
     capabilities: {
       tools: {},
     },
+    instructions: [
+      "This server requires a DRITAN_API_KEY environment variable to use market data and swap tools.",
+      "Get your API key at https://dritan.dev and configure it:",
+      "  claude mcp add dritan-mcp -e DRITAN_API_KEY=<your-key> -- npx dritan-mcp",
+      "Without the key, only system_check_prereqs and wallet tools (create_local, get_address, get_balance) will work.",
+    ].join("\n"),
   },
 );
 
@@ -382,12 +388,24 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     switch (request.params.name) {
       case "system_check_prereqs": {
         const solanaCli = checkSolanaCli();
+        const apiKeySet = !!process.env.DRITAN_API_KEY;
         return ok({
-          ready: solanaCli.ok,
-          checks: [solanaCli],
-          nextAction: solanaCli.ok
-            ? "Environment ready."
-            : "Install Solana CLI using installHint, then retry wallet_create_local.",
+          ready: solanaCli.ok && apiKeySet,
+          checks: [
+            solanaCli,
+            {
+              ok: apiKeySet,
+              name: "DRITAN_API_KEY",
+              hint: apiKeySet
+                ? "API key is configured."
+                : "Missing DRITAN_API_KEY. Get your key at https://dritan.dev and set it as an environment variable.",
+            },
+          ],
+          nextAction: !apiKeySet
+            ? "Set DRITAN_API_KEY environment variable. Get your key at https://dritan.dev"
+            : !solanaCli.ok
+              ? "Install Solana CLI using installHint, then retry wallet_create_local."
+              : "Environment ready.",
         });
       }
 
