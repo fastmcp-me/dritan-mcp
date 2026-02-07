@@ -1,3 +1,9 @@
+## [0.2.6](https://github.com/amirdauti/dritan-mcp/compare/v0.2.5...v0.2.6) (2026-02-07)
+
+### Bug Fixes
+
+* **ci:** force OIDC by clearing npm auth config ([4a9b407](https://github.com/amirdauti/dritan-mcp/commit/4a9b407ffc985478730d932a5261840290617332))
+
 ## [0.2.5](https://github.com/amirdauti/dritan-mcp/compare/v0.2.4...v0.2.5) (2026-02-07)
 
 ### Bug Fixes
