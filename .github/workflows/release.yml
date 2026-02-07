@@ -1,24 +1,24 @@
-name: Publish
+name: Release
 
 on:
   push:
-    tags:
-      - "v*"
+    branches: [ main ]
 
 jobs:
-  publish:
+  release:
     runs-on: ubuntu-latest
-    environment: npm-publish
     permissions:
-      contents: read
-      id-token: write # npm Trusted Publisher (OIDC)
+      contents: write
+      issues: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v5
         with:
           node-version: 20.18.0
-          registry-url: https://registry.npmjs.org
 
       - name: Update npm
         run: npm install -g npm@11.9.0
@@ -35,9 +35,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Publish to npm (OIDC)
-        run: |
-          # Ensure we don't accidentally fall back to token-based auth.
-          unset NODE_AUTH_TOKEN NPM_TOKEN
-          npm publish --access public --provenance
+      - name: Semantic release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run release
 
