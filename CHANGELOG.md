@@ -1,3 +1,9 @@
+## [0.2.7](https://github.com/amirdauti/dritan-mcp/compare/v0.2.6...v0.2.7) (2026-02-07)
+
+### Bug Fixes
+
+* **ci:** trigger release ([a4ac0b4](https://github.com/amirdauti/dritan-mcp/commit/a4ac0b4506a11439aa4fdd7e669889f87be13481))
+
 ## [0.2.6](https://github.com/amirdauti/dritan-mcp/compare/v0.2.5...v0.2.6) (2026-02-07)
 
 ### Bug Fixes
